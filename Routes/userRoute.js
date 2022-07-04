@@ -7,37 +7,39 @@ const userModel = new mongoose.model("user", userSchema);
 
 // get all users
 router.get('/', async (req, res) => {
-    // await userModel.find({}, (err, data) => {
-    //     if (err) {
-    //         res.status(500).send(err);
-    //     } else {
-    //         res.status(200).send(data);
-    //     }
-    // });
-
     userModel.find({}, function (err, data) {
+        if (err) {
+            res.status(500).send(err);
+        } else {
+            const count = data.length;
+            userInfo = {
+                count: count,
+                data: data
+            }
+            res.send(userInfo);
+        }
+    });
+});
+
+// get a single user
+router.get('/:id', async (req, res) => {
+    userModel.findById(req.params.id, function (err, data) {
         if (err) {
             res.status(500).send(err);
         } else {
             res.status(200).send(data);
         }
-    }).clone().catch(function (err) { console.log(err) })
-
+    });
 });
-
-// get a single user
-// router.get('/:id', async (req, res) => {
-//     res.send('get single user');
-// });
 
 // create a new user
 router.post('/', async (req, res) => {
     const user = new userModel(req.body);
     await user.save((err, user) => {
         if (err) {
-            res.status(500).json({ error: "There was a server error" });
+            res.status(500).json({ message: "error" });
         } else {
-            res.status(200).json({ message: "Data inseted succesfully" });
+            res.status(200).json({ message: "success" });
         }
     })
 });
@@ -45,13 +47,19 @@ router.post('/', async (req, res) => {
 
 // update a user
 router.put('/:id', async (req, res) => {
-    res.send('User updated');
+
 });
 
 
 // delete a user
-router.delete('/:id', async (req, res) => {
-    res.send('User deleted');
+router.delete('/delete/:id', async (req, res) => {
+    userModel.deleteOne({ _id: req.params.id }, function (err, data) {
+        if (err) {
+            res.status(500).send(err);
+        } else {
+            res.status(200).send({ message: "success" });
+        }
+    });
 });
 
 
