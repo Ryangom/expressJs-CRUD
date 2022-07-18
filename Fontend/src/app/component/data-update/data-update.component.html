@@ -1,0 +1,25 @@
+<div class="container mt-5">
+    <div class="text-center">
+        <h1>Update Data</h1>
+    </div>
+
+    <form>
+        <div class="form-group">
+          <label for="exampleFormControlInput1">Enter your full name:</label>
+          <input type="text" class="form-control" name="name" id=""  [(ngModel)]="user.name">
+        </div>
+        <div class="form-group">
+            <label for="exampleFormControlInput1">Enter your Email:</label>
+            <input type="text" class="form-control" name="e" id=""  [(ngModel)]="user.email">
+          </div>
+          <div class="form-group">
+            <label for="exampleFormControlInput1">Enter your Mobile Number:</label>
+            <!-- <input type="text"  [(ngModel)]="user.phone"> -->
+            <input type="text" class="form-control" name="phone" id=""  [(ngModel)]="user.phone">
+          </div>
+        <div class="form-group">
+            <button type="button" class="btn btn-primary">Update</button>
+            <button routerLink="/" type="button" class="btn ml-3">Go back</button>
+        </div>
+      </form>
+</div>

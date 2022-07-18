@@ -35,6 +35,7 @@ router.get('/:id', async (req, res) => {
 // create a new user
 router.post('/', async (req, res) => {
     const user = new userModel(req.body);
+    console.log(user);
     await user.save((err, user) => {
         if (err) {
             res.status(500).json({ message: "error" });

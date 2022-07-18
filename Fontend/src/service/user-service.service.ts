@@ -15,4 +15,12 @@ export class UserServiceService {
   getsAllUsers(): Observable<any> {
     return this.httpClient.get('http://localhost:3000/user');
   }
+  getUserById(id: string): Observable<any> {
+    return this.httpClient.get('http://localhost:3000/user/' + id);
+  }
+
+
+  addUser(user: any): Observable<any> {
+    return this.httpClient.post('http://localhost:3000/user', user);
+  }
 }
