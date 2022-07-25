@@ -9,10 +9,12 @@
   
     <div class="row">
       <div class="col-md-12">
+        <div class="mb-3"><b>Total data= {{userdata.length}}</b> </div>
         <table class="table table-bordered" id="editableTable">
           <thead>
             <tr>
             <th>S.no</th>
+                <th>_ID</th>
                 <th>Name</th>
                 <th>Email</th>
                 <th>Mobile Number</th>
@@ -23,6 +25,7 @@
           <tbody>
             <tr *ngFor="let data of userdata; index as i">
                 <td>{{i+1}}</td>
+                <td >{{data._id}}</td>
                 <td >{{data.name}}</td>
                 <td >{{data.email}}</td>
                 <td >{{data.phone}}</td>

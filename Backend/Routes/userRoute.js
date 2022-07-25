@@ -1,13 +1,14 @@
 const express = require('express');
 const router = express.Router();
 const mongoose = require('mongoose');
-const userSchema = require('../Database_schema/userSchema');
-const userModel = new mongoose.model("user", userSchema);
+
+const modelUser = require('../Database_schema/userSchema');
+
 
 
 // get all users
 router.get('/', async (req, res) => {
-    userModel.find({}, function (err, data) {
+    modelUser.find({}, function (err, data) {
         if (err) {
             res.status(500).send(err);
         } else {
@@ -18,12 +19,12 @@ router.get('/', async (req, res) => {
             }
             res.send(userInfo);
         }
-    });
+    }).sort({ name: -1 });
 });
 
 // get a single user
 router.get('/:id', async (req, res) => {
-    userModel.findById(req.params.id, function (err, data) {
+    modelUser.findById(req.params.id, function (err, data) {
         if (err) {
             res.status(500).send(err);
         } else {
@@ -34,8 +35,12 @@ router.get('/:id', async (req, res) => {
 
 // create a new user
 router.post('/', async (req, res) => {
-    const user = new userModel(req.body);
-    console.log(user);
+    const user = new modelUser({
+        name: req.body.name,
+        email: req.body.email,
+        address: req.body.address,
+        phone: req.body.phone
+    });
     await user.save((err, user) => {
         if (err) {
             res.status(500).json({ message: "error" });
@@ -48,13 +53,23 @@ router.post('/', async (req, res) => {
 
 // update a user
 router.put('/:id', async (req, res) => {
-
+    modelUser.updateOne(
+        { _id: req.params.id },
+        {
+            $set: { name: req.body.name, email: req.body.email, address: req.body.address, phone: req.body.phone }
+        } , function (err, data) {
+            if (err) {
+                res.status(500).send(err);
+            } else {
+                res.status(200).send(data);
+            }
+        });
 });
 
 
 // delete a user
 router.delete('/delete/:id', async (req, res) => {
-    userModel.deleteOne({ _id: req.params.id }, function (err, data) {
+    modelUser.deleteOne({ _id: req.params.id }, function (err, data) {
         if (err) {
             res.status(500).send(err);
         } else {
@@ -62,8 +77,6 @@ router.delete('/delete/:id', async (req, res) => {
         }
     });
 });
-
-
 
 // export the router
 module.exports = router;

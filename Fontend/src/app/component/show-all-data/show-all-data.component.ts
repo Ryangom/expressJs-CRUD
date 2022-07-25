@@ -26,15 +26,13 @@ export class ShowAllDataComponent implements OnInit {
 
   update(id:string){
     this.router.navigateByUrl('/update/' + id + ')/');
-    
-
   }
   delete(id:any){
-   let a= confirm("Are you sure you want to delete this record?");
-   if(a){
-    // this.userService.deleteUser(id).subscribe(data=>{
-    //   this.userdata=data.data;
-    // })
+   let confi= confirm("Are you sure you want to delete this record?");
+   if(confi){
+    this.userService.deleteUser(id).subscribe(data=>{
+      this.ngOnInit();
+    })
     alert("Deleted Successfully");
    }
   }

@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { Users } from 'src/model/user.model';
 import { UserServiceService } from 'src/service/user-service.service';
 
@@ -13,7 +14,7 @@ export class AddDataComponent implements OnInit {
   usersService:UserServiceService;
 
 
-  constructor(usersService:UserServiceService) { 
+  constructor(usersService:UserServiceService, private router:Router) { 
     this.usersService=usersService;
   }
   
@@ -21,11 +22,13 @@ export class AddDataComponent implements OnInit {
   }
 
   addUser(){
-    // this.usersService.addUser(this.user).subscribe(data=>{
-    //   console.log(data);
-    // }
-    // )
-    console.log(this.user);
+    this.usersService.addUser(this.user).subscribe(data=>{
+      this.user=data;
+      this.router.navigate(['/']);
+    } , error=>{
+      console.log(error);
+    }
+    ) 
     
   }
 

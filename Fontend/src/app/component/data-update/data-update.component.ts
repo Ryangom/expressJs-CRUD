@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Users } from 'src/model/user.model';
 import { UserServiceService } from 'src/service/user-service.service';
 
@@ -15,7 +15,7 @@ export class DataUpdateComponent implements OnInit {
   activeRoute:ActivatedRoute;
   userId:string='';
 
-  constructor(userService:UserServiceService, activeRoute:ActivatedRoute) {
+  constructor(userService:UserServiceService, activeRoute:ActivatedRoute, private router:Router) {
     this.userService=userService;
     this.activeRoute=activeRoute;
    }
@@ -25,6 +25,22 @@ export class DataUpdateComponent implements OnInit {
     this.userService.getUserById(this.userId).subscribe((data)=>{
         this.user=data;
       });
+  }
+
+  updateUser(){
+    this.userService.updateUser(this.user).subscribe((data)=>{
+      this.user=data;
+      
+      alert("User Updated Successfully");
+      setInterval(()=>{
+        this.router.navigate(['/']); 
+      } , 1000);
+
+
+    } ,(error)=>{
+      console.log(error);
+    }
+    );  
   }
 
 }
